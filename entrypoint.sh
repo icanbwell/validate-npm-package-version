@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Store the version number
-version=$(jq .version package.json | sed 's/"//g')
+version=$PREFIX$(jq .version package.json | sed 's/"//g')
 echo "::set-output name=version::$version"
 
 # See if tag exists for this version number
