@@ -1,5 +1,10 @@
 name: 'Validate NPM Package Version'
 description: 'Ensure that the package version you want to publish is available'
+inputs:
+  version-prefix:
+    description: 'A prefix that will be prepended to the version.  E.g. in v1.0.0 the prefix is "v"'
+    required: false
+    default: ''
 runs:
   using: 'composite'
   steps:
@@ -10,6 +15,8 @@ runs:
     - id: version-check
       run: ${{ github.action_path }}/entrypoint.sh
       shell: bash
+      env:
+        PREFIX: ${{ inputs.version-prefix }}
     - if: ${{ failure() }}
       run: echo "The git tag ${{ steps.version-check.outputs.version }} already exists.  Did You forget to increment the version number in package.json?"
       shell: bash
